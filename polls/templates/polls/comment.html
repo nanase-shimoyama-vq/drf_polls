@@ -1,0 +1,12 @@
+<h1> Thanks your comments !!</h1>
+<br>
+{% if latest_comment_list %}
+    <ul>
+    {% for comment in latest_comment_list %}
+    <li>{{ comment.comment_text }} -- {{ comment.comment_date }}</li>    {% endfor %}
+    </ul>
+{% else %}
+    <p>No comments</p>
+{% endif %}
+
+<p><a href="{% url 'polls:index' %}">Back to Top</a></p>

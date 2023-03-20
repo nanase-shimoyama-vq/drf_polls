@@ -1,21 +1,34 @@
 from rest_framework import serializers
 
-from polls.models import Question, Comment
+from .models import Question, Comment, Choice
 
 # syrializerの種類、メソッド
 
 class QuestionSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(label="Enter id")
+    question_text = serializers.CharField(label="Enter quetions")
+    pub_date = serializers.DateTimeField(label="pub_date")
+
     class Meta:
         model = Question
         fields = ["id", "question_text", "pub_date"]
-        # read_only_fields = ["choices"]
+        depth = 1
+
+class ChoiceSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(label="Enter id")
+    choice_text = serializers.CharField(label="Enter choice")
+
+    class Meta:
+        model = Choice
+        fields = "__all__"
         depth = 1
 
 class CommentSerializer(serializers.ModelSerializer):
-    # Metaを詳しく調べてみよう
+
+    id = serializers.IntegerField(label="Enter id")
+    comment_text = serializers.CharField(label="Enter comment")
+    comment_date = serializers.DateTimeField(label="Comment date")
+
     class Meta:
         model = Comment
-        # fieldsを詳しく調べてみよう
-        # fields = ["id", "comment_text", "comment_date"]
-        exclude = ["id"]
-        depth = 1
+        fields = "__all__"

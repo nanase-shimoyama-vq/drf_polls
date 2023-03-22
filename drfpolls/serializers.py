@@ -17,11 +17,17 @@ class QuestionSerializer(serializers.ModelSerializer):
 class ChoiceSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(label="Enter id")
     choice_text = serializers.CharField(label="Enter choice")
+    votes =  serializers.IntegerField(label="Enter votes")
+    question_id = serializers.IntegerField(label="Enter question_id")
 
     class Meta:
         model = Choice
-        fields = "__all__"
-        depth = 1
+        fields = [
+            "id",
+            "choice_text",
+            "votes",
+            "question_id",
+        ]
 
 class CommentSerializer(serializers.ModelSerializer):
 

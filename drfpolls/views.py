@@ -56,6 +56,46 @@ class ChoiceList(APIView):
         choices = Choice.objects.all()
         serializer = ChoiceSerializer(choices, many=True)
         return Response(serializer.data)
+    
+    def post(self, request, format=None):
+        c_serializer = ChoiceSerializer(data = request.data)
+        if c_serializer.is_valid():
+            Choice.objects.create(
+                id = c_serializer.data.get("id"),
+                choice_text = c_serializer.data.get("choice_text"),
+                votes = c_serializer.data.get("votes"),
+                question_id = c_serializer.data.get("question_id"),
+            )
+            question = Choice.objects.all().filter(id=request.data["id"]).values()
+            return Response(question, status=status.HTTP_201_CREATED)
+        
+        return Response(c_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ChoiceControl(APIView):
+
+    def get_object(self, pk):
+        try:
+            return Choice.objects.get(pk=pk)
+        except Choice.DoesNotExist:
+            raise Http404
+  
+    def get(self, request, pk, format=None):
+        choice = self.get_object(pk)
+        serializer = ChoiceSerializer(choice)
+        return Response(serializer.data)
+ 
+    def put(self, request, pk):
+        choice = self.get_object(pk)
+        serializer = ChoiceSerializer(choice, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+ 
+    def delete(self, request, pk):
+        choice = self.get_object(pk)
+        choice.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class CommentList(APIView):
     # serializer = CommentSerializer

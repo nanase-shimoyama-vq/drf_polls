@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:8.0.28
+    platform: linux/amd64
+    container_name: mysql-container
+    ports:
+    # 左:右　左が外に晒しているポート:右がコンテナ内のポート
+      - "9999:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: shimoyama
+      MYSQL_PASSWORD: password
+      TZ: "Asia/Tokyo"
+    volumes:
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf

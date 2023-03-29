@@ -34,7 +34,13 @@ class CommentSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(label="Enter id")
     comment_text = serializers.CharField(label="Enter comment")
     comment_date = serializers.DateTimeField(label="Comment date")
+    question_id = serializers.IntegerField(label="Enter question_id")
 
     class Meta:
         model = Comment
-        fields = "__all__"
+        fields = [
+            "id",
+            "comment_text",
+            "comment_date",
+            "question_id",
+        ]

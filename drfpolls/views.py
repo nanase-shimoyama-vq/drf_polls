@@ -98,7 +98,6 @@ class ChoiceControl(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class CommentList(APIView):
-    # serializer = CommentSerializer
 
     def get(self, request):
         comments = Comment.objects.all()
@@ -112,6 +111,7 @@ class CommentList(APIView):
                 id = serializer.data.get("id"),
                 comment_text = serializer.data.get("comment_text"),
                 comment_date = serializer.data.get("comment_date"),
+                question_id = serializer.data.get("question_id"),
             )
             comment = Comment.objects.all().filter(id=request.data["id"]).values()
             return Response(comment, status=status.HTTP_201_CREATED)
